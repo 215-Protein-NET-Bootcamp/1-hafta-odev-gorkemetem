@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProteinBankApi.Controllers.Entities;
+using ProteinBankApi.Entities;
 using System;
 using System.Collections.Generic;
 
@@ -7,35 +8,35 @@ namespace ProteinInterestApi.Controllers
 {
     [Route("protein/api/[controller]")]
     [ApiController]
-    public partial class CreditController : ControllerBase
+    public class CreditController : ControllerBase
     {
 
-        double interestRate = 0.01;
+        const double interestRate = 0.01;
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetAmount")]
-        public CommonResponse<Amount> GetAmount([FromQuery] int expiry, int desiredAmount)
+        public CommonResponse<Amount> GetAmount([FromBody] RequestItem requestItem )
         {
             
             Amount amount = new Amount();
-            amount.TotalAmount = Math.Round(desiredAmount * interestRate * (Math.Pow(1 + interestRate, expiry)) / (Math.Pow(1 + interestRate, expiry) - 1) * expiry, 2);
-            amount.InterestAmount = Math.Round(amount.TotalAmount - desiredAmount, 2);
+            amount.TotalAmount = Math.Round(requestItem.DesiredAmount * interestRate * (Math.Pow(1 + interestRate, requestItem.Expiry)) / (Math.Pow(1 + interestRate, requestItem.Expiry) - 1) * requestItem.Expiry, 2);
+            amount.InterestAmount = Math.Round(amount.TotalAmount - requestItem.DesiredAmount, 2);
             return new CommonResponse<Amount>(amount);
 
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetPaymentPlan")]
-        public CommonResponse<List<PaymentPlan>> GetPaymentPlan([FromQuery] int expiry, int desiredAmount)
+        public CommonResponse<List<PaymentPlan>> GetPaymentPlan([FromBody] RequestItem requestItem)
         {
 
             List<PaymentPlan> list = new List<PaymentPlan>();
-            double temp = desiredAmount;
+            double temp = requestItem.DesiredAmount;
 
-            for (int i = 0; i < expiry; i++)
+            for (int i = 0; i < requestItem.Expiry; i++)
             {
                 PaymentPlan plan = new PaymentPlan();
-                plan.Payment = Math.Round(desiredAmount * interestRate * (Math.Pow(1 + interestRate, expiry)) / (Math.Pow(1 + interestRate, expiry) - 1), 2);
+                plan.Payment = Math.Round(requestItem.DesiredAmount * interestRate * (Math.Pow(1 + interestRate, requestItem.Expiry)) / (Math.Pow(1 + interestRate, requestItem.Expiry) - 1), 2);
                 plan.PaymentNo = i + 1;
                 plan.InterestPaid = Math.Round(temp * interestRate,2);
                 plan.MoneyPaid = Math.Round(plan.Payment - plan.InterestPaid, 2);

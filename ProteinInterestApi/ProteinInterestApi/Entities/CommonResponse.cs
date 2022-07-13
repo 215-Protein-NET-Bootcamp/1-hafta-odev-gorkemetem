@@ -1,8 +1,8 @@
-﻿namespace ProteinInterestApi.Controllers
+﻿namespace ProteinBankApi.Controllers.Entities
 
 {
-     public class CommonResponse<T>
-     {
+    public class CommonResponse<T>
+    {
 
         public CommonResponse(T data)
         {
@@ -21,6 +21,6 @@
         public string Error { get; set; }
         public T Data { get; set; }
 
-     }
-        
+    }
+
 }

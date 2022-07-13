@@ -3,6 +3,7 @@ using ProteinBankApi.Controllers.Entities;
 using ProteinBankApi.Entities;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 
 namespace ProteinInterestApi.Controllers
 {
@@ -11,7 +12,8 @@ namespace ProteinInterestApi.Controllers
     public class CreditController : ControllerBase
     {
 
-        const double interestRate = 0.01;
+        double interestRate = Convert.ToDouble(ConfigurationManager.AppSettings["interestRate"]);
+        
 
         [HttpPost]
         [Route("GetAmount")]

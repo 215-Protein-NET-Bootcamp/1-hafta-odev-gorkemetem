@@ -9,31 +9,35 @@ namespace ProteinInterestApi.Controllers
     [ApiController]
     public partial class CreditController : ControllerBase
     {
+
+        double interestRate = 0.01;
+
         [HttpGet]
         [Route("GetAmount")]
-        public CommonResponse<Amount> GetAmount([FromQuery] int maturityAmount, int desiredAmount)
+        public CommonResponse<Amount> GetAmount([FromQuery] int expiry, int desiredAmount)
         {
-            double faiz = 0.01;
+            
             Amount amount = new Amount();
-            amount.TotalAmount = Math.Round(desiredAmount * faiz * (Math.Pow(1 + faiz, maturityAmount)) / (Math.Pow(1 + faiz, maturityAmount) - 1) * maturityAmount, 2);
+            amount.TotalAmount = Math.Round(desiredAmount * interestRate * (Math.Pow(1 + interestRate, expiry)) / (Math.Pow(1 + interestRate, expiry) - 1) * expiry, 2);
             amount.InterestAmount = Math.Round(amount.TotalAmount - desiredAmount, 2);
             return new CommonResponse<Amount>(amount);
+
         }
 
         [HttpGet]
         [Route("GetPaymentPlan")]
-        public CommonResponse<List<PaymentPlan>> GetPlan([FromQuery] int maturityAmount, int desiredAmount)
+        public CommonResponse<List<PaymentPlan>> GetPaymentPlan([FromQuery] int expiry, int desiredAmount)
         {
-            double faiz = 0.01;
+
             List<PaymentPlan> list = new List<PaymentPlan>();
             double temp = desiredAmount;
 
-            for (int i = 0; i < maturityAmount; i++)
+            for (int i = 0; i < expiry; i++)
             {
                 PaymentPlan plan = new PaymentPlan();
-                plan.Payment = Math.Round(desiredAmount * faiz * (Math.Pow(1 + faiz, maturityAmount)) / (Math.Pow(1 + faiz, maturityAmount) - 1), 2);
+                plan.Payment = Math.Round(desiredAmount * interestRate * (Math.Pow(1 + interestRate, expiry)) / (Math.Pow(1 + interestRate, expiry) - 1), 2);
                 plan.PaymentNo = i + 1;
-                plan.InterestPaid = Math.Round(temp * faiz,2);
+                plan.InterestPaid = Math.Round(temp * interestRate,2);
                 plan.MoneyPaid = Math.Round(plan.Payment - plan.InterestPaid, 2);
                 temp -= plan.MoneyPaid;
                 plan.RemainingDebt = Math.Round(temp, 2);
@@ -41,7 +45,7 @@ namespace ProteinInterestApi.Controllers
             }
                 
             return new CommonResponse<List<PaymentPlan>>(list);
-        }
 
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace ProteinInterestApi
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -43,6 +44,7 @@ namespace ProteinInterestApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProteinInterestApi v1"));
             }
+
 
             app.UseHttpsRedirection();
 

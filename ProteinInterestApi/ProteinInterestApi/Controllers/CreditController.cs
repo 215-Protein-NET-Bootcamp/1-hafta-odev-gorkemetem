@@ -7,14 +7,21 @@ using System.Configuration;
 
 namespace ProteinInterestApi.Controllers
 {
+
+    /*
+     * Controller Class where credit calculations and planning are made.
+     */
     [Route("protein/api/[controller]")]
     [ApiController]
     public class CreditController : ControllerBase
     {
 
         double interestRate = Convert.ToDouble(ConfigurationManager.AppSettings["interestRate"]);
-        
 
+
+        /*
+         * Post Method returning the total amount to be paid and interest.
+         */
         [HttpPost]
         [Route("GetAmount")]
         public CommonResponse<Amount> GetAmount([FromBody] RequestItem requestItem )
@@ -27,6 +34,9 @@ namespace ProteinInterestApi.Controllers
 
         }
 
+        /*
+         * Post Method returning payment schedule.
+         */
         [HttpPost]
         [Route("GetPaymentPlan")]
         public CommonResponse<List<PaymentPlan>> GetPaymentPlan([FromBody] RequestItem requestItem)

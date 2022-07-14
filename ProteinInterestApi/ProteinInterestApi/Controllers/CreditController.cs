@@ -23,8 +23,8 @@ namespace ProteinInterestApi.Controllers
          * Post Method returning the total amount to be paid and interest.
          */
         [HttpPost]
-        [Route("GetAmount")]
-        public CommonResponse<Amount> GetAmount([FromBody] RequestItem requestItem )
+        [Route("Post/Amount")]
+        public CommonResponse<Amount> PostAmount([FromBody] RequestItem requestItem )
         {
             
             Amount amount = new Amount();
@@ -38,8 +38,8 @@ namespace ProteinInterestApi.Controllers
          * Post Method returning payment schedule.
          */
         [HttpPost]
-        [Route("GetPaymentPlan")]
-        public CommonResponse<List<PaymentPlan>> GetPaymentPlan([FromBody] RequestItem requestItem)
+        [Route("Post/PaymentPlan")]
+        public CommonResponse<List<PaymentPlan>> PostPaymentPlan([FromBody] RequestItem requestItem)
         {
 
             List<PaymentPlan> list = new List<PaymentPlan>();

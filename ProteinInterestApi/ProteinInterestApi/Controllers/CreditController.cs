@@ -43,17 +43,17 @@ namespace ProteinInterestApi.Controllers
         {
 
             List<PaymentPlan> list = new List<PaymentPlan>();
-            double temp = requestItem.DesiredAmount;
+            double remainingDebt = requestItem.DesiredAmount;
 
             for (int i = 0; i < requestItem.Expiry; i++)
             {
                 PaymentPlan plan = new PaymentPlan();
                 plan.Payment = Math.Round(requestItem.DesiredAmount * interestRate * (Math.Pow(1 + interestRate, requestItem.Expiry)) / (Math.Pow(1 + interestRate, requestItem.Expiry) - 1), 2);
                 plan.PaymentNo = i + 1;
-                plan.InterestPaid = Math.Round(temp * interestRate,2);
+                plan.InterestPaid = Math.Round(remainingDebt * interestRate,2);
                 plan.MoneyPaid = Math.Round(plan.Payment - plan.InterestPaid, 2);
-                temp -= plan.MoneyPaid;
-                plan.RemainingDebt = Math.Round(temp, 2);
+                remainingDebt -= plan.MoneyPaid;
+                plan.RemainingDebt = Math.Round(remainingDebt, 2);
                 list.Add(plan);
             }
                 

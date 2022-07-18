@@ -28,7 +28,10 @@ namespace ProteinInterestApi.Controllers
         {
             
             Amount amount = new Amount();
-            amount.TotalAmount = Math.Round(requestItem.DesiredAmount * interestRate * (Math.Pow(1 + interestRate, requestItem.Expiry)) / (Math.Pow(1 + interestRate, requestItem.Expiry) - 1) * requestItem.Expiry, 2);
+            //formula to calculate total money with interest
+            amount.TotalAmount = Math.Round(requestItem.DesiredAmount * interestRate * 
+                                 (Math.Pow(1 + interestRate, requestItem.Expiry)) / 
+                                 (Math.Pow(1 + interestRate, requestItem.Expiry) - 1) * requestItem.Expiry, 2);
             amount.InterestAmount = Math.Round(amount.TotalAmount - requestItem.DesiredAmount, 2);
             return new CommonResponse<Amount>(amount);
 
@@ -48,7 +51,10 @@ namespace ProteinInterestApi.Controllers
             for (int i = 0; i < requestItem.Expiry; i++)
             {
                 PaymentPlan plan = new PaymentPlan();
-                plan.Payment = Math.Round(requestItem.DesiredAmount * interestRate * (Math.Pow(1 + interestRate, requestItem.Expiry)) / (Math.Pow(1 + interestRate, requestItem.Expiry) - 1), 2);
+                //formula to calculate monthly payment amount
+                plan.Payment = Math.Round(requestItem.DesiredAmount * interestRate * 
+                              (Math.Pow(1 + interestRate, requestItem.Expiry)) / 
+                              (Math.Pow(1 + interestRate, requestItem.Expiry) - 1), 2);
                 plan.PaymentNo = i + 1;
                 plan.InterestPaid = Math.Round(remainingDebt * interestRate,2);
                 plan.MoneyPaid = Math.Round(plan.Payment - plan.InterestPaid, 2);

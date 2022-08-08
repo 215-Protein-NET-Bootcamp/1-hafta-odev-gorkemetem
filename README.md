@@ -6,6 +6,7 @@
 ## Ekran Görüntüleri
 ![swagger](PostmanScreenShots/PostAmount.PNG)
 ![swagger](PostmanScreenShots/PostPaymentPlan.PNG)
-     Validation:
+
+    Validation:
 ![swagger](PostmanScreenShots/ValidationTest_PostAmount.PNG)
 ![swagger](PostmanScreenShots/ValidationTest_PostPaymentPlan.PNG)
